@@ -5,9 +5,9 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using SpringBoard.Domaine;
-using SpringBoard_IT.Model;
+using SpringBoard.API.Model;
 
-namespace SpringBoard_IT.Controllers
+namespace SpringBoard.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

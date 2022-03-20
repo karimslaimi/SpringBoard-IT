@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace SpringBoard_IT.Model
+namespace SpringBoard.API.Model
 {
     public class LoginModel
     {

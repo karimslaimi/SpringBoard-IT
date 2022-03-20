@@ -7,20 +7,20 @@ using System.Threading.Tasks;
 
 namespace SpringBoard.Domaine
 {
-    public class CompteRendu
+    public class Rapport
     {
         [Key]
         public int id { get; set; }
 
-        public bool statut { get; set; }
-
-        public DateTime validation { get; set; }
-
         public DateTime date { get; set; }
 
-        public ICollection<Rapport> Rapports { get; set; }
+        public double valeur { get; set; }
+
+        public virtual CompteRendu CompteRendu { get; set; }
 
 
-        public virtual Consultant Consultant { get; set; }
+    
+    
+    
     }
 }

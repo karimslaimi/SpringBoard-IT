@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SpringBoard.Domaine
 {
-    public class Consultant
+    public class Consultant:Utilisateur
     {
         public string competence { get; set; }//json type
         public virtual List<CompteRendu> CompteRendus { get; set; }

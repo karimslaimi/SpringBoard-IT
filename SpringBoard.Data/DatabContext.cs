@@ -26,6 +26,8 @@ namespace SpringBoard.Data
         {
             builder.Entity<Consultant>(x => x.HasMany(c => c.CompteRendus).WithOne(c => c.Consultant));
 
+            builder.Entity<CompteRendu>(_ => _.HasMany(r => r.Rapports).WithOne(x => x.CompteRendu));
+
             base.OnModelCreating(builder);
         }
 
