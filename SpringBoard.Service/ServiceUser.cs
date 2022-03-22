@@ -141,11 +141,11 @@ namespace SpringBoard.Service
             return userManager.UpdateAsync(user);
         }
 
-
+        //TODO fix those fucking problems ich fick dish mann
 
         public  IEnumerable<Commercial> listCommercial()
         {
-            return utwk.getRepository<Commercial>().GetMany();
+            return await utwk.getRepository<Commercial>().getAll();
 
            
 
@@ -153,12 +153,12 @@ namespace SpringBoard.Service
 
         public IEnumerable<Consultant> listConsultant()
         {
-            return utwk.getRepository<Consultant>().GetMany();
+            return utwk.getRepository<Consultant>().getAll();
         }
 
         public IEnumerable<GestionnaireRH> listGestionnaireRH()
         {
-            return utwk.getRepository<GestionnaireRH>().GetMany();
+            return utwk.getRepository<GestionnaireRH>().getAll();
         }
 
         //TODO fix the disposed context

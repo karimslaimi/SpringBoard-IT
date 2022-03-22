@@ -10,16 +10,19 @@ namespace SpringBoard.Data.Infrastructure
     public interface IRepositoryBase<T>
      where T : class
     {
-        void Add(T entity);
-        void Delete(Expression<Func<T, bool>> where);
-        void Delete(T entity);
-        T Get(Expression<Func<T, bool>> where);
+        
 
-        T GetById(long id);
-        T GetById(string id);
-        IEnumerable<T> GetMany(Expression<Func<T, bool>> where = null);
 
-        void Update(T entity);
+
+        Task<T> Get(Expression<Func<T, bool>> where);
+
+        Task<IEnumerable<T>> getAll();
+        Task<T> GetById(int id);
+        Task<bool> Add(T entity);
+        Task<bool> Delete(Expression<Func<T, bool>> where);
+        bool Delete(T entity);
+        T update(T entity);
+        Task<IEnumerable<T>> getMany(Expression<Func<T, bool>> predicate);
 
 
     }

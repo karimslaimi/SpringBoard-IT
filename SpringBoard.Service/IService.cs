@@ -10,10 +10,11 @@ namespace SpringBoard.Service
         void Update(T entity);
         void Delete(T entity);
         void Delete(Expression<Func<T, bool>> where);
-        T GetById(long id);
-        T GetById(string id);
-        IEnumerable<T> GetMany(Expression<Func<T, bool>> where = null);
-        T Get(Expression<Func<T, bool>> where);
+        Task<T> GetById(int id);
+
+
+        Task<IEnumerable<T>> GetMany(Expression<Func<T, bool>> where = null);
+        Task<T> Get(Expression<Func<T, bool>> where);
 
 
 

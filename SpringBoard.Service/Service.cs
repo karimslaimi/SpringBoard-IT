@@ -36,7 +36,7 @@ namespace SpringBoard.Service
         public virtual void Update(TEntity entity)
         {
             //_repository.Update(entity);
-            utwk.getRepository<TEntity>().Update(entity);
+            utwk.getRepository<TEntity>().update(entity);
         }
 
         public virtual void Delete(TEntity entity)
@@ -51,28 +51,25 @@ namespace SpringBoard.Service
             utwk.getRepository<TEntity>().Delete(where);
         }
 
-        public virtual TEntity GetById(long id)
+        public virtual async Task<TEntity> GetById(int id)
         {
             //  return _repository.GetById(id);
-            return utwk.getRepository<TEntity>().GetById(id);
+            return await utwk.getRepository<TEntity>().GetById(id);
         }
 
-        public virtual TEntity GetById(string id)
-        {
-            //return _repository.GetById(id);
-            return utwk.getRepository<TEntity>().GetById(id);
-        }
+     
 
-        public virtual IEnumerable<TEntity> GetMany(Expression<Func<TEntity, bool>> filter = null)
+
+        public virtual async Task<IEnumerable<TEntity>> GetMany(Expression<Func<TEntity, bool>> filter = null)
         {
             //  return _repository.GetAll();
-            return utwk.getRepository<TEntity>().GetMany(filter);
+            return await utwk.getRepository<TEntity>().getMany(filter);
         }
 
-        public virtual TEntity Get(Expression<Func<TEntity, bool>> where)
+        public virtual async Task<TEntity> Get(Expression<Func<TEntity, bool>> where)
         {
             //return _repository.Get(where);
-            return utwk.getRepository<TEntity>().Get(where);
+            return await utwk.getRepository<TEntity>().Get(where);
         }
 
 

@@ -8,6 +8,11 @@ namespace SpringBoard.Data.Infrastructure
         private DatabContext dataContext;
         private readonly DbSet<T> dbset;
         IDatabaseFactory databaseFactory;
+
+ 
+
+
+
         public RepositoryBase(IDatabaseFactory dbFactory)
         {
             this.databaseFactory = dbFactory;
@@ -20,60 +25,52 @@ namespace SpringBoard.Data.Infrastructure
             get { return dataContext = databaseFactory.DataContext; }
         }
 
-        #region Synch Methods
 
-        public virtual void Add(T entity)
+        public virtual async Task<T> Get(Expression<Func<T, bool>> where)
         {
-            dbset.Add(entity);
+            return await dbset.Where(where).FirstOrDefaultAsync();
         }
-        public virtual void Update(T entity)
+
+        public virtual async Task<IEnumerable<T>> getAll()
+        {
+            return await dbset.ToListAsync();
+        }
+
+        public virtual async Task<T> GetById(int id)
+        {
+            return await dbset.FindAsync(id);
+        }
+
+        public virtual async Task<bool> Add(T entity)
+        {
+            await dbset.AddAsync(entity);
+            return true;
+        }
+
+        public virtual async Task<bool> Delete(Expression<Func<T, bool>> where)
+        {
+            IEnumerable<T> objects = await dbset.Where<T>(where).ToListAsync();
+            foreach (T obj in objects)
+                dbset.Remove(obj);
+            return true;
+        }
+
+        public virtual bool Delete(T entity)
+        {
+            dbset.Remove(entity);
+            return true;
+        }
+
+        public virtual T update(T entity)
         {
             dbset.Attach(entity);
             dataContext.Entry(entity).State = EntityState.Modified;
-        }
-        public virtual void Delete(T entity)
-        {
-            dbset.Remove(entity);
-        }
-        public virtual void Delete(Expression<Func<T, bool>> where)
-        {
-            IEnumerable<T> objects = dbset.Where<T>(where).AsEnumerable();
-            foreach (T obj in objects)
-                dbset.Remove(obj);
-        }
-        public virtual T GetById(long id)
-        {
-            return dbset.Find(id);
-        }
-        public virtual T GetById(string id)
-        {
-            return dbset.Find(id);
-        }
-      
-        public virtual IEnumerable<T> GetAll()
-        {
-            return dbset.ToList();
+            return entity;
         }
 
-        public virtual IEnumerable<T> GetMany(Expression<Func<T, bool>> where = null)
+        public virtual async Task<IEnumerable<T>> getMany(Expression<Func<T, bool>> predicate)
         {
-            IQueryable<T> Query = dbset;
-            if (where != null)
-            {
-                Query = Query.Where(where);
-            }
-         
-            return Query;
+            return await dbset.Where(predicate).ToListAsync();
         }
-        public T Get(Expression<Func<T, bool>> where)
-        {
-            return dbset.Where(where).FirstOrDefault<T>();
-        } 
-       
-        
-        #endregion
-
-   
-      
     }
 }
