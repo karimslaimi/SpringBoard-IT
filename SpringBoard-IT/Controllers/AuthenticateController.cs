@@ -17,7 +17,7 @@ namespace SpringBoard.API.Controllers
         private readonly RoleManager<IdentityRole> roleManager;
         private readonly IConfiguration _configuration;
 
-        public AuthenticateController(UserManager<Utilisateur> userManager, RoleManager<IdentityRole> roleManager, IConfiguration configuration)
+        public AuthenticateController(UserManager<Utilisateur> userManager, RoleManager<IdentityRole> roleManager, IConfiguration configuration, SignInManager<Utilisateur> _signInManager)
         {
             this.userManager = userManager;
             this.roleManager = roleManager;
@@ -48,21 +48,27 @@ namespace SpringBoard.API.Controllers
                 var token = new JwtSecurityToken(
                     issuer: _configuration["JWT:ValidIssuer"],
                     audience: _configuration["JWT:ValidAudience"],
-                    expires: DateTime.Now.AddHours(3),
+                    expires: DateTime.Now.AddDays(30),
                     claims: authClaims,
                     signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256)
                     );
 
+
                 return Ok(new
                 {
                     token = new JwtSecurityTokenHandler().WriteToken(token),
-                    expiration = token.ValidTo
+                    expiration = token.ValidTo,
+                    role=userRoles
                 });
             }
             return Unauthorized();
         }
 
     
+
+
+
+
     }
 
 }

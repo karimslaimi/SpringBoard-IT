@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using SpringBoard.Data.Infrastructure;
 using SpringBoard.Domaine;
 using System;
@@ -13,16 +14,19 @@ namespace SpringBoard.Service
     {
         static IDatabaseFactory dbf = new DatabaseFactory();
         static IUnitOfWork utwk = new UnitOfWork(dbf);
+        private UserManager<Utilisateur> userManager;
 
 
+        public ServiceUser(UserManager<Utilisateur> _userManager):base(utwk)
+        {
+            this.userManager = _userManager;
+        }
       
 
-        public ServiceUser():base(utwk)
-        {
-         
-        }
+       
 
-        public async Task<Utilisateur> addUserAsync(dynamic us,UserManager<Utilisateur> userManager)
+
+        public async Task<Utilisateur> addUserAsync(dynamic us)
         {
             string role = us.role;
             
@@ -42,7 +46,7 @@ namespace SpringBoard.Service
                
                var result =  await userManager.CreateAsync(user, us.password);
 
-                if (result.IsCompletedSuccessfully)
+                if (result.Succeeded)
                 {
                     await userManager.AddToRoleAsync(user, "RH");
                 }
@@ -62,7 +66,7 @@ namespace SpringBoard.Service
                 user.Firstname = us.firstName;
                 var result = userManager.CreateAsync(user, us.password);
 
-                if (result.IsCompletedSuccessfully)
+                if (result.Succeeded)
                 {
                    await userManager.AddToRoleAsync(user, "Consultant");
                 }
@@ -80,7 +84,7 @@ namespace SpringBoard.Service
                 user.LastName = us.lastName;
                 user.Firstname = us.firstName;
                 var result = userManager.CreateAsync(user, us.password);
-                if (result.IsCompletedSuccessfully)
+                if (result.Succeeded)
                 {
                   await  userManager.AddToRoleAsync(user, "Commercial");
                 }
@@ -98,7 +102,7 @@ namespace SpringBoard.Service
                 user.Firstname = us.firstName;
 
                 var result = userManager.CreateAsync(user, us.password);
-                if (result.IsCompletedSuccessfully)
+                if (result.Succeeded)
                 {
                    await userManager.AddToRoleAsync(user, "Administrateur");
                 }
@@ -114,5 +118,55 @@ namespace SpringBoard.Service
             }
            
         }
+
+
+        public async Task<Utilisateur> updateProfile(dynamic user, UserManager<Utilisateur> userManager)
+        {
+            Utilisateur us = await userManager.FindByEmailAsync(user.email);
+
+            if (us == null)
+            {
+                return null;
+            }
+
+            us.Firstname = user.firstName;
+            us.LastName = user.lastName;
+
+            if (!string.IsNullOrEmpty(user.password) && !string.IsNullOrWhiteSpace(user.password))
+            {
+                await userManager.RemovePasswordAsync(us);
+                await userManager.AddPasswordAsync(us, user.password);
+            }
+
+            return userManager.UpdateAsync(user);
+        }
+
+
+
+        public  IEnumerable<Commercial> listCommercial()
+        {
+            return utwk.getRepository<Commercial>().GetMany();
+
+           
+
+        }
+
+        public IEnumerable<Consultant> listConsultant()
+        {
+            return utwk.getRepository<Consultant>().GetMany();
+        }
+
+        public IEnumerable<GestionnaireRH> listGestionnaireRH()
+        {
+            return utwk.getRepository<GestionnaireRH>().GetMany();
+        }
+
+        //TODO fix the disposed context
+        public async Task<IEnumerable<Utilisateur>> Search(string keyword)
+        {
+            return  this.GetMany(x => x.Firstname.Contains(keyword) || x.LastName.Contains(keyword) || x.UserName.Contains(keyword));
+        }
+
+      
     }
 }
