@@ -8,14 +8,18 @@ using System.Threading.Tasks;
 
 namespace SpringBoard.Service
 {
-    public interface IServiceUser:IService<Utilisateur>
+    public interface IServiceUser
     {
         public Task<Utilisateur> addUserAsync(dynamic user);
         public Task<Utilisateur> updateProfile(dynamic user, UserManager<Utilisateur> userManager);
+        public Task<bool> disableAccount(string id);
+        public Task<bool> deleteUser(string id);
 
-        public IEnumerable<Consultant> listConsultant();
-        public IEnumerable<Commercial> listCommercial();
-        public IEnumerable<GestionnaireRH> listGestionnaireRH();
+
+
+        public Task<IEnumerable<Consultant>> listConsultant();
+        public Task<IEnumerable<Commercial>> listCommercial();
+        public Task<IEnumerable<GestionnaireRH>> listGestionnaireRH();
         public Task<IEnumerable<Utilisateur>> Search(string keyword);
 
 

@@ -23,18 +23,18 @@ namespace SpringBoard.API.Controllers
         }
 
         [HttpPost]
-        public async Task<object> addUserAsync([FromBody] RegisterModel register)
+        public async Task<IActionResult> addUserAsync([FromBody] RegisterModel register)
         {
             if (!register.valid())
             {
-                return false;
+                return Ok(false);
             }
 
-           return await this.serviceUser.addUserAsync((dynamic)register)!=null;
+           return Ok( await this.serviceUser.addUserAsync((dynamic)register)!=null);
         }
 
         [HttpPut]
-        public async Task<Object> updateProfile([FromBody] RegisterModel profile)
+        public async Task<IActionResult> updateProfile([FromBody] RegisterModel profile)
         {
             if (!profile.valid())
             {
@@ -48,32 +48,62 @@ namespace SpringBoard.API.Controllers
 
         [HttpGet]
         [Route("/listCommercial")]
-        public IEnumerable<Commercial> listCommercial()
+        public async Task<IActionResult> listCommercial()
         {
-            return this.serviceUser.listCommercial();
+            return Ok(this.serviceUser.listCommercial());
         }
 
         [HttpGet]
         [Route("/listConsultant")]
-        public IEnumerable<Consultant> listConsultant()
+        public async Task<IActionResult> listConsultant()
         {
-            return this.serviceUser.listConsultant();
+            return Ok(this.serviceUser.listConsultant());
         } 
         
         
         [HttpGet]
         [Route("/listRH")]
-        public IEnumerable<GestionnaireRH> listRH()
+        public async Task<IActionResult> listRH()
         {
-            return this.serviceUser.listGestionnaireRH();
+            return Ok(this.serviceUser.listGestionnaireRH());
         } 
         
         [HttpGet]
-        [Route("/filter")]
-        public async Task<IEnumerable<Utilisateur>> filter(string filter)
+       
+        public async Task<IActionResult> filter(string filter)
         {
             var result = await serviceUser.Search(filter);
-            return result;
+            return Ok(result);
+        }
+
+
+
+        [HttpDelete]
+        public async Task<IActionResult> deleteUser(string userid)
+        {
+            var result = await serviceUser.deleteUser(userid);
+            if (result)
+            {
+                return Ok("User deleted successfully");
+            }
+            else
+            {
+                return Ok("Error occured try disabling the account");
+            }
+        }
+
+        [HttpDelete]
+        public async Task<IActionResult> lockOutUser(string userid)
+        {
+            var result = await serviceUser.disableAccount(userid);
+            if (result)
+            {
+                return Ok("User account disabled successfully");
+            }
+            else
+            {
+                return Ok("Error occured");
+            }
         }
     }
 }

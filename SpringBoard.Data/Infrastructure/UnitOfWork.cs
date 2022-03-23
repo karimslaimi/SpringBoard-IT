@@ -1,4 +1,5 @@
 ﻿using SpringBoard.Data;
+using SpringBoard.Data.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,7 +19,10 @@ namespace SpringBoard.Data.Infrastructure
             this.dbFactory = dbFactory;
             dataContext = dbFactory.DataContext;
         }
-        
+
+        public IRepositoryUser repositoryUser;
+
+        public IRepositoryUser RepositoryUser => repositoryUser = repositoryUser ?? new RepositoryUser(dbFactory);
 
 
         public void Commit()
@@ -32,8 +36,7 @@ namespace SpringBoard.Data.Infrastructure
         }
         public IRepositoryBase<T> getRepository<T>() where T : class
         {
-            IRepositoryBase<T> repo = new RepositoryBase<T>(dbFactory);
-            return repo;
+            return new RepositoryBase<T>(dbFactory);
         }
       
     }
