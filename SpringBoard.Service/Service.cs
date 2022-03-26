@@ -27,16 +27,16 @@ namespace SpringBoard.Service
         {
             utwk.Dispose();
         }
-        public virtual void Add(TEntity entity)
+        public virtual async void Add(TEntity entity)
         {
             ////_repository.Add(entity);
-            utwk.getRepository<TEntity>().Add(entity);
+            await utwk.getRepository<TEntity>().Add(entity);
         }
 
         public virtual void Update(TEntity entity)
         {
             //_repository.Update(entity);
-            utwk.getRepository<TEntity>().update(entity);
+             utwk.getRepository<TEntity>().update(entity);
         }
 
         public virtual void Delete(TEntity entity)

@@ -29,6 +29,8 @@ builder.Services.AddIdentity<Utilisateur, IdentityRole>()
     .AddEntityFrameworkStores<DatabContext>()
     .AddDefaultTokenProviders();
 
+
+
 builder.Services.Configure<IdentityOptions>(options =>
 {
     // Default Password settings.
@@ -42,6 +44,8 @@ builder.Services.Configure<IdentityOptions>(options =>
     options.SignIn.RequireConfirmedPhoneNumber = false;
 });
 // Adding Authentication  
+
+
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;

@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using SpringBoard.API.Model;
 using SpringBoard.Domaine;
 using SpringBoard.Service;
+using System.Text.Json;
 
 namespace SpringBoard.API.Controllers
 {
@@ -50,14 +51,14 @@ namespace SpringBoard.API.Controllers
         [Route("/listCommercial")]
         public async Task<IActionResult> listCommercial()
         {
-            return Ok(this.serviceUser.listCommercial());
+            return Ok(await this.serviceUser.listCommercial());
         }
 
         [HttpGet]
         [Route("/listConsultant")]
         public async Task<IActionResult> listConsultant()
         {
-            return Ok(this.serviceUser.listConsultant());
+            return Ok(await this.serviceUser.listConsultant());
         } 
         
         
@@ -65,7 +66,7 @@ namespace SpringBoard.API.Controllers
         [Route("/listRH")]
         public async Task<IActionResult> listRH()
         {
-            return Ok(this.serviceUser.listGestionnaireRH());
+            return Ok(await this.serviceUser.listGestionnaireRH());
         } 
         
         [HttpGet]

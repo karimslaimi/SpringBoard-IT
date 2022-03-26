@@ -11,6 +11,14 @@ namespace SpringBoard.Data.Infrastructure
     public class UnitOfWork : IUnitOfWork
     {
        
+        public IRepositoryUser repositoryUser;
+
+        public IRepositoryRapport repositoryRapport;
+
+        public IRepositoryCompteRendu repositoryCompteRendu;
+
+
+
          private DatabContext dataContext;
 
         IDatabaseFactory dbFactory;
@@ -20,9 +28,13 @@ namespace SpringBoard.Data.Infrastructure
             dataContext = dbFactory.DataContext;
         }
 
-        public IRepositoryUser repositoryUser;
 
         public IRepositoryUser RepositoryUser => repositoryUser = repositoryUser ?? new RepositoryUser(dbFactory);
+
+        public IRepositoryCompteRendu RepositoryCompteRendu => repositoryCompteRendu = repositoryCompteRendu ?? new RepositoryCompteRendu(dbFactory);
+
+        public IRepositoryRapport RepositoryRapport => repositoryRapport = repositoryRapport ?? new RepositoryRapport(dbFactory);
+
 
 
         public void Commit()
