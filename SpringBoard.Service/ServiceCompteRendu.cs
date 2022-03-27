@@ -1,5 +1,8 @@
 ﻿using SpringBoard.Data.Infrastructure;
 using SpringBoard.Domaine;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace SpringBoard.Service
 {
@@ -11,6 +14,7 @@ namespace SpringBoard.Service
         protected ServiceCompteRendu() : base(utwk)
         {
         }
+
 
         public async Task<Rapport> addRapportToCR(DateTime date, double value, string userId)
         {
@@ -59,7 +63,7 @@ namespace SpringBoard.Service
         }
 
 
-        public async Task<CompteRendu> GetCRbyDate(DateTime date, string userId)
+        public async Task<CompteRendu> GetCRbyDateAndUser(DateTime date, string userId)
         {
             CompteRendu compteRendu = await utwk.RepositoryCompteRendu.Get(x => x.date.Month == date.Month && x.Consultant.Id == userId);
             compteRendu.Rapports = (ICollection<Rapport>)await utwk.RepositoryRapport.getMany(x => x.CompteRendu.id == compteRendu.id);

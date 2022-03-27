@@ -28,10 +28,10 @@ namespace SpringBoard.API.Controllers
         {
             if (!register.valid())
             {
-                return Ok(false);
+                return Ok(null);
             }
 
-           return Ok( await this.serviceUser.addUserAsync((dynamic)register)!=null);
+           return Ok( await this.serviceUser.addUserAsync((dynamic)register));
         }
 
         [HttpPut]

@@ -45,9 +45,9 @@ namespace SpringBoard.Service
                 user.Email = us.email;
                 user.LastName = us.lastName;
                 user.Firstname = us.firstName;
-                user.UserName = us.lastName + "-" + us.firstName + "-" + us.email;
-               
-               var result =  await userManager.CreateAsync(user, us.password);
+                user.UserName = us.email;
+
+                var result =  await userManager.CreateAsync(user, us.password);
 
                 if (result.Succeeded)
                 {
@@ -67,7 +67,8 @@ namespace SpringBoard.Service
                 user.Email = us.email;
                 user.LastName = us.lastName;
                 user.Firstname = us.firstName;
-                var result = userManager.CreateAsync(user, us.password);
+                user.UserName = us.email;
+                var result = await userManager.CreateAsync(user, us.password);
 
                 if (result.Succeeded)
                 {
@@ -86,7 +87,8 @@ namespace SpringBoard.Service
                 user.Email = us.email;
                 user.LastName = us.lastName;
                 user.Firstname = us.firstName;
-                var result = userManager.CreateAsync(user, us.password);
+                user.UserName = us.email;
+                var result =await userManager.CreateAsync(user, us.password);
                 if (result.Succeeded)
                 {
                   await  userManager.AddToRoleAsync(user, "Commercial");
@@ -103,8 +105,9 @@ namespace SpringBoard.Service
                 user.Email = us.email;
                 user.LastName = us.lastName;
                 user.Firstname = us.firstName;
+                user.UserName = us.email;
 
-                var result = userManager.CreateAsync(user, us.password);
+                var result =await userManager.CreateAsync(user, us.password);
                 if (result.Succeeded)
                 {
                    await userManager.AddToRoleAsync(user, "Administrateur");
